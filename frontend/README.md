@@ -1,16 +1,175 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+🚀 GigFlow – Mini Freelance Marketplace
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+GigFlow is a full-stack freelance marketplace where users can post gigs (jobs) and apply to them by submitting bids.
+It demonstrates secure authentication, relational data modeling, and real-world hiring logic.
 
-## React Compiler
+⸻
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+📌 Project Overview
+	•	Users can post gigs with a title, description, and budget.
+	•	Other users can browse open gigs and submit bids.
+	•	The gig owner can review all bids and hire one freelancer.
+	•	Hiring updates the gig and bid statuses correctly and consistently.
 
-## Expanding the ESLint configuration
+⸻
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+🛠️ Tech Stack
+
+Frontend
+	•	React.js (Vite)
+	•	Tailwind CSS
+	•	Axios
+
+Backend
+	•	Node.js
+	•	Express.js
+	•	MongoDB (Mongoose)
+
+Authentication
+	•	JWT (JSON Web Tokens)
+	•	Stored securely using HttpOnly cookies
+
+⸻
+
+✨ Features
+
+🔐 Authentication
+	•	User registration
+	•	User login & logout
+	•	Secure JWT authentication with HttpOnly cookies
+
+📄 Gig Management
+	•	View all open gigs
+	•	Search gigs by title (backend-powered)
+	•	Create new gigs
+	•	View gigs posted by the logged-in user
+
+💬 Bidding System
+	•	Submit bids with price and message
+	•	View all bids for a gig (gig owner only)
+	•	Bid count displayed per gig
+
+✅ Hiring Logic
+	•	Gig owner can hire one freelancer
+	•	On hiring:
+	•	Gig status → assigned
+	•	Selected bid → hired
+	•	Remaining bids → rejected
+
+⸻
+
+🔁 API Endpoints
+
+Auth
+
+Method	Endpoint	Description
+POST	/api/auth/register	Register a new user
+POST	/api/auth/login	Login user
+POST	/api/auth/logout	Logout user
+GET	/api/auth/me	Get logged-in user
+
+Gigs
+
+Method	Endpoint	Description
+GET	/api/gigs	Fetch open gigs
+GET	/api/gigs?search=	Search gigs by title
+POST	/api/gigs	Create a new gig
+
+Bids
+
+Method	Endpoint	Description
+POST	/api/bids	Submit a bid
+GET	/api/bids/:gigId	Get bids for a gig
+PATCH	/api/bids/:bidId/hire	Hire freelancer
+
+
+⸻
+
+🧠 Database Models
+
+User
+
+{
+  name,
+  email,
+  password
+}
+
+Gig
+
+{
+  title,
+  description,
+  budget,
+  ownerId,
+  status: "open" | "assigned"
+}
+
+Bid
+
+{
+  gigId,
+  freelancerId,
+  message,
+  price,
+  status: "pending" | "hired" | "rejected"
+}
+
+
+⸻
+
+⚙️ Environment Setup
+
+1️⃣ Clone Repository
+
+git clone https://github.com/YOUR_USERNAME/GigFlow.git
+cd GigFlow
+
+2️⃣ Install Dependencies
+
+# backend
+cd backend
+npm install
+
+# frontend
+cd ../frontend
+npm install
+
+3️⃣ Environment Variables
+
+Create a .env file inside backend/
+
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+
+
+⸻
+
+4️⃣ Run the Project
+
+Backend
+
+cd backend
+node server.js
+
+Frontend
+
+cd frontend
+npm run dev
+
+
+⸻
+
+🌟 Notes
+	•	Search functionality is implemented using backend query parameters.
+	•	Authentication uses secure HttpOnly cookies.
+	•	Clean separation between frontend and backend.
+	•	UI styled using Tailwind CSS.
+
+⸻
+
+👩‍💻 Author
+
+Leena Ghuge
