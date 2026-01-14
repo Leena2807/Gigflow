@@ -1,17 +1,18 @@
 
-
 🚀 GigFlow – Mini Freelance Marketplace
 
-GigFlow is a full-stack freelance marketplace where users can post gigs (jobs) and apply to them by submitting bids.
-It demonstrates secure authentication, relational data modeling, and real-world hiring logic.
+GigFlow is a full-stack freelance marketplace where users can post gigs (jobs) and apply by submitting bids.
+It demonstrates secure authentication, relational data modeling, and real-world hiring logic commonly used in production systems.
 
 ⸻
 
 📌 Project Overview
-	•	Users can post gigs with a title, description, and budget.
-	•	Other users can browse open gigs and submit bids.
+	•	Users can register, log in, and log out securely.
+	•	Any logged-in user can post gigs with a title, description, and budget.
+	•	Users can browse open gigs and search them by title.
+	•	Freelancers can submit bids with a message and proposed price.
 	•	The gig owner can review all bids and hire one freelancer.
-	•	Hiring updates the gig and bid statuses correctly and consistently.
+	•	Hiring updates gig and bid statuses consistently.
 
 ⸻
 
@@ -38,25 +39,27 @@ Authentication
 🔐 Authentication
 	•	User registration
 	•	User login & logout
-	•	Secure JWT authentication with HttpOnly cookies
+	•	JWT-based authentication using HttpOnly cookies
+	•	Protected routes via middleware
 
 📄 Gig Management
 	•	View all open gigs
-	•	Search gigs by title (backend-powered)
-	•	Create new gigs
-	•	View gigs posted by the logged-in user
+	•	Backend-powered search by title
+	•	Create new gigs (authenticated users)
+	•	View gigs posted by the logged-in user (My Gigs)
 
 💬 Bidding System
-	•	Submit bids with price and message
-	•	View all bids for a gig (gig owner only)
-	•	Bid count displayed per gig
+	•	Submit bids with message and price
+	•	View all bids for a gig
+	•	Bid count visible per gig
 
 ✅ Hiring Logic
-	•	Gig owner can hire one freelancer
+	•	Gig owner can hire only one freelancer
 	•	On hiring:
 	•	Gig status → assigned
 	•	Selected bid → hired
 	•	Remaining bids → rejected
+	•	Assigned gigs disappear from the public feed and appear under My Gigs
 
 ⸻
 
@@ -73,7 +76,7 @@ GET	/api/auth/me	Get logged-in user
 Gigs
 
 Method	Endpoint	Description
-GET	/api/gigs	Fetch open gigs
+GET	/api/gigs	Fetch all open gigs
 GET	/api/gigs?search=	Search gigs by title
 POST	/api/gigs	Create a new gig
 
@@ -82,7 +85,7 @@ Bids
 Method	Endpoint	Description
 POST	/api/bids	Submit a bid
 GET	/api/bids/:gigId	Get bids for a gig
-PATCH	/api/bids/:bidId/hire	Hire freelancer
+PATCH	/api/bids/:bidId/hire	Hire a freelancer
 
 
 ⸻
@@ -139,7 +142,7 @@ npm install
 
 3️⃣ Environment Variables
 
-Create a .env file inside backend/
+Create a .env file inside backend/:
 
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
@@ -162,14 +165,24 @@ npm run dev
 
 ⸻
 
-🌟 Notes
-	•	Search functionality is implemented using backend query parameters.
-	•	Authentication uses secure HttpOnly cookies.
-	•	Clean separation between frontend and backend.
-	•	UI styled using Tailwind CSS.
+🌟 Notes & Design Decisions
+	•	Search functionality is implemented using backend query parameters (/api/gigs?search=).
+	•	Authentication uses HttpOnly cookies for improved security.
+	•	Hiring logic ensures data consistency by updating gig and bid statuses sequentially.
+	•	MongoDB transactions and real-time notifications were not implemented but can be added as future enhancements.
+	•	Clear separation of frontend and backend responsibilities.
+
+⸻
+
+🚀 Future Improvements
+	•	MongoDB transactions to handle race conditions during hiring
+	•	Role-based access control for bid visibility
+	•	Real-time notifications using Socket.io
+	•	Pagination and sorting for gigs and bids
 
 ⸻
 
 👩‍💻 Author
 
 Leena Ghuge
+
