@@ -24,10 +24,10 @@ const [password, setPassword] = useState("");
 
   try {
     if (isRegister) {
-      await api.post("/auth/register", { email, password });
+      await api.post("api/auth/register", { email, password });
     }
 
-    await api.post("/auth/login", { email, password });
+    await api.post("api/auth/login", { email, password });
 
     const me = await api.get("/api/auth/me");
     setUser(me.data);
@@ -41,7 +41,7 @@ const [password, setPassword] = useState("");
 // logout
 const logout = async () => {
   try {
-    await api.post("/auth/logout");
+    await api.post("api/auth/logout");
   } catch (err) {
     console.error("Logout error:", err);
   }
