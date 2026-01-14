@@ -1,10 +1,8 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://gigflow-backend-uyin.onrender.com",
+  baseURL: "/api",          // 👈 IMPORTANT
   withCredentials: true,
 });
 
 export default api;
-
-
