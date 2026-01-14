@@ -1,5 +1,5 @@
 console.log("SERVER FILE EXECUTED");
-
+const PORT = process.env.PORT || 5000;
 import express from "express";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
@@ -32,4 +32,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/gigs", gigRoutes);
 app.use("/api/bids", bidRoutes);
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+
+
+app.listen(PORT, () => {
+  console.log("Server running on port", PORT);
+});
