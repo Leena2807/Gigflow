@@ -20,7 +20,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",          
-      "https://gigflow.vercel.app"       // frontend later
+      "gigflow-k0xgsqdss-leenas-projects-7e4bef5c.vercel.app"       // frontend later
     ],
     credentials: true,
   })
