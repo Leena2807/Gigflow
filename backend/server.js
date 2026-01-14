@@ -16,13 +16,16 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-  app.use(
+app.use(
   cors({
-    origin: true,
+    origin: [
+      "http://localhost:5173",          
+      "https://gigflow.vercel.app"       // frontend later
+    ],
     credentials: true,
   })
-
 );
+
 
 mongoose
   .connect(process.env.MONGO_URI)
