@@ -13,6 +13,7 @@ import bidRoutes from "./routes/bid.routes.js";
 dotenv.config();
 
 const app = express();
+app.set("trust proxy", 1);     // 🔥 REQUIRED FOR Render + secure cookies
 
 app.use(express.json());
 app.use(cookieParser());
