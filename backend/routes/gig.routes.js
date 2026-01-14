@@ -1,14 +1,15 @@
-const router = require("express").Router();
-const Gig = require("../models/Gig");
-const auth = require("../middleware/auth.middleware");
-const authMiddleware = require("../middleware/auth.middleware");
+import express from "express";
+import Gig from "../models/Gig.js";
+import authMiddleware from "../middleware/auth.middleware.js";
+
+const router = express.Router();
+
+/* ================= GET OPEN GIGS (with search) ================= */
 router.get("/", async (req, res) => {
   try {
     const { search } = req.query;
 
-    const query = {
-      status: "open",
-    };
+    const query = { status: "open" };
 
     if (search) {
       query.title = { $regex: search, $options: "i" };
@@ -21,24 +22,28 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", auth, async (req, res) => {
+/* ================= CREATE GIG ================= */
+router.post("/", authMiddleware, async (req, res) => {
   const gig = await Gig.create({
     ...req.body,
-    ownerId: req.user.id,
-    status: "open"
+    ownerId: req.user._id,
+    status: "open",
   });
+
   res.json(gig);
 });
 
+/* ================= MY GIGS (MUST BE BEFORE :id) ================= */
+router.get("/mine", authMiddleware, async (req, res) => {
+  const gigs = await Gig.find({ ownerId: req.user._id });
+  res.json(gigs);
+});
+
+/* ================= GET GIG BY ID ================= */
 router.get("/:id", authMiddleware, async (req, res) => {
   const gig = await Gig.findById(req.params.id);
   if (!gig) return res.status(404).json({ message: "Gig not found" });
   res.json(gig);
 });
 
-router.get("/mine", authMiddleware, async (req, res) => {
-  const gigs = await Gig.find({ ownerId: req.user._id });
-  res.json(gigs);
-});
-
-module.exports = router;
+export default router;

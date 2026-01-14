@@ -6,7 +6,7 @@ export default function MyGigs({ userId, onSelectGig }) {
 
   useEffect(() => {
     api
-      .get("/api/gigs")
+      .get("/api/gigs/mine")
       .then(res => {
         // only gigs created by this user
         const mine = res.data.filter(g => g.ownerId === userId);

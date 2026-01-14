@@ -1,26 +1,27 @@
-const express = require("express");
+import express from "express";
+import Bid from "../models/Bid.js";
+import Gig from "../models/Gig.js";
+import authMiddleware from "../middleware/auth.middleware.js";
+
 const router = express.Router();
 
-const Bid = require("../models/Bid");
-const Gig = require("../models/Gig");
-const auth = require("../middleware/auth.middleware");
-
-// Create bid
-router.post("/", auth, async (req, res) => {
+/* ================= CREATE BID ================= */
+router.post("/", authMiddleware, async (req, res) => {
   try {
     const bid = await Bid.create({
       ...req.body,
-      freelancerId: req.user.id,
-      status: "pending"
+      freelancerId: req.user._id,
+      status: "pending",
     });
+
     res.json(bid);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-// Get bids for a gig
-router.get("/:gigId", auth, async (req, res) => {
+/* ================= GET BIDS FOR A GIG ================= */
+router.get("/:gigId", authMiddleware, async (req, res) => {
   try {
     const bids = await Bid.find({ gigId: req.params.gigId });
     res.json(bids);
@@ -29,8 +30,8 @@ router.get("/:gigId", auth, async (req, res) => {
   }
 });
 
-// Hire freelancer (NO TRANSACTIONS)
-router.patch("/:bidId/hire", auth, async (req, res) => {
+/* ================= HIRE FREELANCER ================= */
+router.patch("/:bidId/hire", authMiddleware, async (req, res) => {
   try {
     const bid = await Bid.findById(req.params.bidId);
     if (!bid) return res.status(404).json({ message: "Bid not found" });
@@ -42,12 +43,15 @@ router.patch("/:bidId/hire", auth, async (req, res) => {
       return res.status(400).json({ message: "Gig already assigned" });
     }
 
+    // update gig
     gig.status = "assigned";
     await gig.save();
 
+    // update selected bid
     bid.status = "hired";
     await bid.save();
 
+    // reject others
     await Bid.updateMany(
       { gigId: gig._id, _id: { $ne: bid._id } },
       { status: "rejected" }
@@ -59,4 +63,4 @@ router.patch("/:bidId/hire", auth, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

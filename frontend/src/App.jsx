@@ -22,15 +22,21 @@ const [password, setPassword] = useState("");
     return;
   }
 
-  if (isRegister) {
-    await api.post("/api/auth/register", { email, password });
+  try {
+    if (isRegister) {
+      await api.post("/api/auth/register", { email, password });
+    }
+
+    await api.post("/api/auth/login", { email, password });
+
+    const me = await api.get("/api/auth/me");
+    setUser(me.data);
+    setLoggedIn(true);
+  } catch (err) {
+    const msg =
+      err?.response?.data?.message || "Authentication failed";
+    alert(msg);
   }
-
-  await api.post("/api/auth/login", { email, password });
-
-  const me = await api.get("/api/auth/me");
-  setUser(me.data);
-  setLoggedIn(true);
 };
 // logout
 const logout = async () => {
