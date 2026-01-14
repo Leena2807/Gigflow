@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Briefcase, PlusCircle, User, LayoutGrid } from "lucide-react";
 
-import api from "./api/api";
+import api from "./api/axios";
 import GigFeed from "./pages/GigFeed";
 import CreateGig from "./pages/CreateGig";
 import GigDetail from "./pages/GigDetail";
