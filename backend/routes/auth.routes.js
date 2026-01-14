@@ -47,12 +47,14 @@ router.post("/login", async (req, res) => {
    res.cookie("token", token, {
     httpOnly: true,
     secure: true,        // REQUIRED for HTTPS
-    sameSite: "none",    // REQUIRED for cross-site
+    sameSite: "none",
+      path: "/", // REQUIRED for cross-site
   }); 
   console.log("LOGIN HIT - SETTING COOKIE WITH", {
   httpOnly: true,
   secure: true,
-  sameSite: "none"
+  sameSite: "none",
+    
 });
   res.json({ message: "Logged in" });
 });
