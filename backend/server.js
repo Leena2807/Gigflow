@@ -22,7 +22,7 @@ app.use(
     origin: true,
     credentials: true,
   })
-
+)
 );
 
 mongoose
