@@ -1,16 +1,9 @@
-
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  server: {
-    proxy: {
-      "/api": {
-        target: "https://gigflow-backend-uyin.onrender.com",
-        changeOrigin: true,
-        secure: true,
-      },
-    },
+  preview: {
+    allowedHosts: ["gigflow-frontend-5dkn.onrender.com"],
   },
 });
